@@ -50,7 +50,7 @@ const NavBar = ()=>{
                         const Icon = link.icon;
                         //console.log(link.icon);
                         return(
-                            <Link key={link.name} href={link.href} className="flex flex-col items-center sm:text-sm gap-1">
+                            <Link key={link.name} href={link.href} className="flex flex-col items-center sm:text-sm gap-1 text-white hover:text-green-500">
                                 <Icon className="w-5 h-5 sm:w-6 sm:h-6"></Icon>
                                 <span className="hidden sm:block">{link.name}</span>
                             </Link>

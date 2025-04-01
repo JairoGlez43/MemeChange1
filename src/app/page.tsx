@@ -23,7 +23,7 @@ export default function Home() {
     }
   ]
   return (
-    <section className="flex-grow justify-items-center bg-neutral-900 max-h-full px-8 py-14">
+    <section className="flex-grow justify-items-center max-h-full">
       <h1>Hello World</h1>
       <div className="flex-col justify-items-center text-center w-full bg-gradient-to-br from-[rgb(18,27,19)] to-[rgb(19,78,32)] py-12 max-w-6xl">
         <div className="py-3 w-auto">
