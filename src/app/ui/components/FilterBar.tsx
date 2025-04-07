@@ -2,14 +2,21 @@ import { useState } from "react"
 import { FilterBarProps } from "@/lib/types";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { DropdownMenu, DropdownMenuItem, DropdownMenuContent, DropdownMenuTrigger } from "@radix-ui/react-dropdown-menu";
+import {
+    Select,
+    SelectContent,
+    SelectGroup,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+  } from "@/components/ui/select"
+//import { DropdownMenu, DropdownMenuItem, DropdownMenuContent, DropdownMenuTrigger } from "@radix-ui/react-dropdown-menu";
 import { FaSearch} from "react-icons/fa";
-import { ChevronDown, X } from "lucide-react";
+import { X } from "lucide-react";
 
-const FilterBar = ({value, setValue}: FilterBarProps)=>{
+const FilterBar = ({value, setValue, status, setStatus}: FilterBarProps)=>{
     //const [filterValue, setFilterValue] = useState<string>('');
     const[isFilterOpen, setIsFilterOpen] = useState<boolean>(false);
-    const[statusFilter, setStatusFilter] = useState('Search by status');
     const onClick = ()=>{
         setIsFilterOpen(v => !v);
     }
@@ -17,13 +24,23 @@ const FilterBar = ({value, setValue}: FilterBarProps)=>{
         const newValue = e.target.value;
         setValue(newValue);
     }
+    const handleSelectChange = (status: string)=>{
+        if(status==='Active'||status==='Finished'){
+            setStatus(status);
+        }else{
+            setStatus('');
+        }
+    }
     return(
-        <div className="flex-col items-center w-full lg:w-4/6 bg-neutral-800 px-3 mb-5">
+        <div className="flex-col items-center w-full lg:w-5/6 bg-neutral-800 px-3 mb-5 rounded-md">
             {!isFilterOpen?(
             <div className="flex justify-between">
-                <div className="flex items-center space-x-2 px-4 py-2">
-                    <span className="text-white font-medium">Explore More</span>
-                    <span className="text-orange-500">🔥</span>
+                <div className="flex justify-between items-center w-11/12 px-4 py-2">
+                    <div>
+                        <span className="text-white font-medium">Explore More</span>
+                        <span className="text-orange-500">🔥</span>
+                    </div>
+                    {status !== ''? <p className="text-white text-xs">filter: {status}</p>:null}
                 </div>
                 <Button
                     onClick={onClick}
@@ -35,9 +52,12 @@ const FilterBar = ({value, setValue}: FilterBarProps)=>{
                 </Button>
             </div>): 
             <div className="flex justify-between">
-                <div className="flex items-center space-x-2 px-4 py-2">
-                    <span className="text-white font-medium">Explore More</span>
-                    <span className="text-orange-500">🔥</span>
+                <div className="flex justify-between items-center min-w-11/12 px-4 py-2">
+                    <div>
+                        <span className="text-white font-medium">Explore More</span>
+                        <span className="text-orange-500">🔥</span>
+                    </div>
+                    {status !== ''? <p className="text-white text-xs">filter: {status}</p>:null}
                 </div>
                 <Button
                     onClick={onClick}
@@ -55,54 +75,40 @@ const FilterBar = ({value, setValue}: FilterBarProps)=>{
                         placeholder="Search by name, address or description..."
                         value={value}
                         onChange={onChange}
-                        className="sm:w-3/5 bg-neutral-700 text-white border-neutral-600 focus-visible:ring-neutral-100">
+                        className="sm:w-5/9 bg-neutral-700 text-white border-neutral-600 focus-visible:ring-neutral-100">
                     </Input>
                     <div className="flex">
                         <div className="flex shrink-0 sm:max-w-40">
-                            <DropdownMenu>
-                                <DropdownMenuTrigger asChild>
-                                    <Button
-                                        variant="outline"
-                                        className={
-                                        "w-full justify-between bg-neutral-800 text-white border-neutral-700 hover:bg-neutral-700 hover:text-white"}
-                                    >
-                                        <span>{statusFilter}</span>
-                                        <ChevronDown className="h-4 w-4 opacity-50 ml-2" />
-                                    </Button>
-                                </DropdownMenuTrigger>
-                                <DropdownMenuContent className="bg-neutral-800 border-neutral-700 text-white border-1 w-full">
-                                    <DropdownMenuItem
-                                        className="hover:bg-neutral-700 cursor-pointer"
-                                        onClick={() => setStatusFilter("active")}
-                                    >
-                                        Active
-                                    </DropdownMenuItem>
-                                    <DropdownMenuItem
-                                        className="hover:bg-neutral-700 cursor-pointer"
-                                        onClick={() => setStatusFilter("finished")}
-                                    >
-                                        Finished
-                                    </DropdownMenuItem>
-                                </DropdownMenuContent>
-                            </DropdownMenu>
+                            <Select key={status} onValueChange={handleSelectChange} value={status !== ''?status:undefined}>
+                                <SelectTrigger className="w-[120px] text-white bg-neutral-700">
+                                    <SelectValue placeholder="Filter by state"></SelectValue>
+                                </SelectTrigger>
+                                <SelectContent className="bg-neutral-800 border-neutral-700 text-white border-1">
+                                    <SelectGroup>
+                                        <SelectItem value="Active" className="hover:bg-neutral-700 cursor-pointer">Active</SelectItem>
+                                        <SelectItem value="Finished" className="hover:bg-neutral-700 cursor-pointer">Finished</SelectItem>
+                                    </SelectGroup>
+                                </SelectContent>
+                            </Select>
                         </div>
                         <div>
-                            {statusFilter !== "Search by status" && (
-                            <Button
-                                variant="ghost"
-                                size="icon"
-                                onClick={()=> setStatusFilter('Search by status')}
-                                className="bg-neutral-800 text-neutral-400 hover:bg-neutral-700 hover:text-white"
-                            >
-                                <X className="h-4 w-4" />
-                                {/*<span>Clear filter</span>*/}
-                            </Button>
+                            {status !== '' && (
+                                <Button
+                                    variant="ghost"
+                                    size={'sm'}
+                                    onClick={() => setStatus('')}
+                                    className="bg-neutral-800 text-neutral-400 hover:bg-neutral-700 hover:text-white hover:cursor-pointer"
+                                    >
+                                        <X className="h-4 w-4" />
+                                        {<span>Clear filter</span>}
+                                </Button>
                             )}
                         </div>
                     </div>
                     
                 </div>
             </>}
+            
         </div>
     )
     

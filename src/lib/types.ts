@@ -40,9 +40,14 @@ export interface FilteredMemeCoin {
 }
 
 export type Coins = MemeCoin | FilteredMemeCoin;
+export interface Data{
+    items:Coins[] | [],
+    total:number,
+    hasMore: boolean,
+}
 
 export interface FetchingResult{
-    coins: Coins[] | [] | undefined,
+    data: Data,
     isLoading: boolean,
     error: string,
 }
@@ -52,4 +57,6 @@ export type Status = 'active' | 'finished';
 export interface FilterBarProps{
     value: string,
     setValue: (value: string) => void,
+    status: string,
+    setStatus: (status: string) => void,
 }

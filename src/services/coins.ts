@@ -5,8 +5,8 @@ export const fetcher = async<T>(url:string):Promise<T|unknown> => {
             throw new Error(`Error ${response.status}: ${response.statusText}`);
         }
         const data = await response.json();
-        const items = await data.items
-        return items;
+        //const items = await data.items
+        return data;
     }catch(error){
         if(error instanceof Error){
             throw {message: error.message}

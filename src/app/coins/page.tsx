@@ -1,6 +1,7 @@
 'use client'
 import { useState, /*useRef*/} from "react";
 import MemeCoin_Card from "../ui/components/MemeCoin_Card";
+import TrendingCard from "../ui/components/TrendingCard"; 
 //import { Button } from "@/components/ui/button";
 
 import { useMemeCoin } from "@/lib/hooks";
@@ -9,33 +10,55 @@ import FilterBar from "../ui/components/FilterBar";
 
 const Page = ()=>{
     const[filterValue, setFilterValue] = useState<string>('');
-    const {coins, isLoading, error} = useMemeCoin(filterValue)
+    const[filterStatus, setFilterStatus] = useState<string>('');
+    //console.log(filterStatus);
+    const {coins, isLoading, setSize, size, hasMore} = useMemeCoin(filterValue, filterStatus);
+    
     
     
     return(
-            <div className="flex-col w-7xl px-3 sm:px-8 py-6 mb-70">
-                
-                {error&&<h1>{error}</h1>}
+            <div className="flex-col w-7xl px-3 sm:px-8 py-6 mb-30">
                 <div className="flex mb-3.5">
-                    <h2 className="font-semibold text-white text-center text-2xl w-full">Meme Coins</h2>
+                    <h2 className="font-bold text-white text-center text-2xl w-full">Meme Coins</h2>
                 </div>
-                <FilterBar value={filterValue} setValue={setFilterValue}></FilterBar>
-                
-                {isLoading &&!error && (
-                    <div className="flex justify-center items-center py-12">
-                        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-green-500"></div>
+                <a href="/create-coin">
+                    <p className="text-green-600 text-center hover:underline mb-4">Create your meme coin just for 0.15 EGLD</p>
+                </a>
+                {isLoading?(
+                    <div className="flex items-center justify-center m-9">
+                        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-purple-500"></div>
                     </div>
-                )}
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-                    {coins?.map(coin =>{
-                        //console.log(coin.creator.address);
-                        return(
-                            <MemeCoin_Card 
-                                key={filterValue? `${coin.coin.name}-${filterValue}`: coin.coin.id} 
-                                coin={coin}>
-                            </MemeCoin_Card>)
-                    })}
-                </div>
+                ):
+                coins&&coins.length>0?(<div className="flex justify-center mb-7">
+                    <TrendingCard coin={coins[0]}></TrendingCard>
+                </div>): null}
+                <FilterBar value={filterValue} setValue={setFilterValue} status={filterStatus} setStatus={setFilterStatus}></FilterBar>
+                
+                {isLoading?(
+                    <div className="flex justify-center items-center py-12">
+                        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-purple-500"></div>
+                    </div>
+                ):coins&&coins.length > 0?
+                (
+                    <section>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                            {coins?.map(coin =>{
+                                //console.log(coin.creator.address);
+                                return(
+                                    <MemeCoin_Card 
+                                        key={filterValue? `${coin.coin.name}-${filterValue}`: coin.coin.name} 
+                                        coin={coin}>
+                                    </MemeCoin_Card>)
+                            })}
+                        </div>
+                        {hasMore&&<div>
+                            <button className="bg-amber-400 text-bold text-white" onClick={()=>setSize(size + 1)}>Load more</button>
+                        </div>}
+                    </section>
+                ): 
+                    (<div className="flex justify-center items-center py-12">
+                        <h1 className="text-lg text-white">No coins found</h1>
+                    </div>)}
             </div>
         
     )

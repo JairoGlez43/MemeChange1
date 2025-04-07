@@ -1,16 +1,29 @@
-import useSWR from "swr";
-import { Coins, FetchingResult } from "@/lib/types";
+//import useSWR from "swr";
+import { Coins,Data } from "@/lib/types";
 import { fetcher } from "@/services/coins";
 import { useState, useEffect } from "react";
+import useSWRInfinite from "swr/infinite";
 const Base_Url = 'https://api.memexchange.fun/api/bonding-pairs';
 
-export const useMemeCoin = (searchQuery: string): FetchingResult => {
+
+export const useMemeCoin = (searchQuery: string, searchStatus: string) => {
     const debouncedQuery = useDebounced(searchQuery, 500);
-    //console.log(debouncedQuery);
-    const url: string = debouncedQuery? `${Base_Url}/search?query=${debouncedQuery}`: Base_Url;
-    const {data:coins, isLoading, error} = useSWR<Coins[]>(url, fetcher);
-    //console.log(coins, isLoading, error);
-    return {coins, isLoading, error: error?.message};
+    const limit:number = 20;
+    //console.log(debouncedQuery, searchStatus);
+    //const url: string = `${Base_Url}/search?state=${searchStatus}&query=${debouncedQuery}`;
+    const getKey = (pageIndex: number, previousData: Data) =>{
+        if(previousData && !previousData.hasMore) return null;
+        const offSet = pageIndex * limit;
+        //console.log(offSet,pageIndex);
+        const url: string = debouncedQuery || searchStatus?`${Base_Url}/search?state=${searchStatus}&query=${debouncedQuery}`:`${Base_Url}?&offset=${offSet}&limit=${limit}`;
+        console.log(url);
+        return url;
+    }
+    const {data , isLoading, error, size, setSize} = useSWRInfinite<Data>(getKey, fetcher);
+    const coins = data? data.reduce<Coins[]>((acc,page)=>[...acc, ...page.items], []):[];
+    console.log(size);
+    const hasMore: boolean = data? data[data?.length-1].hasMore: false;
+    return {coins, isLoading, error: error?.message, size, setSize, hasMore};
 }
 
 
