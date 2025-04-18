@@ -9,6 +9,12 @@ const MemeCoin_Card = ({coin}: {coin:Coins}) =>{
     const date = formatDistance(new Date(coin.createdAt), new Date());
     const creatorAddress = typeof coin.creator === 'object'? coin.creator.address: coin.creator/*`${coin.creator.slice(0,9)} ... ${coin.creator.slice(coin.creator.length-6, coin.creator.length)}`*/
     const slicedAddress = `${creatorAddress.slice(0,9)} ... ${creatorAddress.slice(creatorAddress.length-6, creatorAddress.length)}`
+    const onTwButtonClick = (e: React.MouseEvent)=>{
+        e.preventDefault();
+        const url = `https://twitter.com/intent/tweet?text=${encodeURIComponent(`Check out ${coin.coin.name} on MemExchange`)}&url=${encodeURIComponent(`https://memexchange.fun/meme-coins/${coin.address}`)}`;
+        window.open(url, '_blank');
+    }
+
     return(
         
         <Card className="bg-neutral-800 h-75 transition-transform hover:scale-[1.02] duration-200 hover:shadow-lg overflow-hidden border-neutral-700 p-2 flex flex-col justify-between">
@@ -40,7 +46,10 @@ const MemeCoin_Card = ({coin}: {coin:Coins}) =>{
                         <span className="mx-2">•</span>
                         <span>{date}</span>
                     </div>
-                    <FaXTwitter className="h-5 w-5 text-gray-500 m-2 rounded-sm hover:bg-neutral-600" />
+                    <button onClick={onTwButtonClick}>
+                        <FaXTwitter className="h-5 w-5 text-gray-500 m-2 rounded-sm hover:bg-neutral-600" />
+                    </button>
+                    
                 </CardFooter>
             </a>
         </Card>

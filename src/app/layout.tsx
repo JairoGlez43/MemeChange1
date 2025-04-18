@@ -44,7 +44,7 @@ export default function RootLayout({
             Connect Wallet
           </Button>
         </div>
-        <main className="flex min-h-screen px-4 sm:px-8 py-14 bg-neutral-900">
+        <main className="flex min-h-screen px-5 sm:px-20 py-14 bg-neutral-900">
           {children}
         </main>
         <NavBar></NavBar>

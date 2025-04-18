@@ -16,6 +16,7 @@ const Page = ()=>{
     
     
     
+    
     return(
             <div className="flex-col w-full px-3 sm:px-8 py-6 mb-30">
                 <div className="flex mb-3.5">
