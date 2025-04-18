@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import { Button } from "@/components/ui/button";
+import { Wallet } from "lucide-react";
 import "./globals.css";
 //import styles from "./ui/home.module.css";
 import NavBar from "./ui/components/NavBar";
@@ -36,7 +38,12 @@ export default function RootLayout({
         </section>
         <div className="h-20"></div>*/}
         
-  
+        <div className="absolute top-0 left-0 flex justify-center items-center w-full px-5 py-5">
+          <Button className="rounded-full bg-[#0a6320] hover:bg-[#0a6320]/80 h-9 px-4 py-2 hover:cursor-pointer">
+            <Wallet></Wallet>
+            Connect Wallet
+          </Button>
+        </div>
         <main className="flex min-h-screen px-4 sm:px-8 py-14 bg-neutral-900">
           {children}
         </main>

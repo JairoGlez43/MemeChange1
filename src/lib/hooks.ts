@@ -16,10 +16,11 @@ export const useMemeCoin = (searchQuery: string, searchStatus: string) => {
         const offSet = pageIndex * limit;
         //console.log(offSet,pageIndex);
         const url: string = debouncedQuery || searchStatus?`${Base_Url}/search?state=${searchStatus}&query=${debouncedQuery}`:`${Base_Url}?&offset=${offSet}&limit=${limit}`;
-        console.log(url);
+        //console.log(url);
         return url;
     }
-    const {data , isLoading, error, size, setSize} = useSWRInfinite<Data>(getKey, fetcher);
+    const {data , isLoading, error, size, setSize} = useSWRInfinite<Data>(getKey, fetcher, {revalidateFirstPage: false});
+    //console.log(data);
     const coins = data? data.reduce<Coins[]>((acc,page)=>[...acc, ...page.items], []):[];
     console.log(size);
     const hasMore: boolean = data? data[data?.length-1].hasMore: false;

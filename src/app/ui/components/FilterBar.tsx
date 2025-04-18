@@ -20,7 +20,7 @@ const FilterBar = ({value, setValue, status, setStatus}: FilterBarProps)=>{
     const onClick = ()=>{
         setIsFilterOpen(v => !v);
     }
-    const onChange = (e) =>{
+    const onChange = (e: React.ChangeEvent<HTMLInputElement>) =>{
         const newValue = e.target.value;
         setValue(newValue);
     }
@@ -51,25 +51,25 @@ const FilterBar = ({value, setValue, status, setStatus}: FilterBarProps)=>{
                     <FaSearch className="h-5 w-5" />
                 </Button>
             </div>): 
-            <div className="flex justify-between">
-                <div className="flex justify-between items-center min-w-11/12 px-4 py-2">
-                    <div>
-                        <span className="text-white font-medium">Explore More</span>
-                        <span className="text-orange-500">🔥</span>
-                    </div>
-                    {status !== ''? <p className="text-white text-xs">filter: {status}</p>:null}
-                </div>
-                <Button
-                    onClick={onClick}
-                    variant="ghost"
-                    size="icon"
-                    className="text-gray-400 hover:text-white hover:bg-transparent"
-                >
-                    <X className="h-5 w-5" />
-                </Button>
-            </div>}
-            {isFilterOpen && 
             <>
+                <div className="flex justify-between">
+                    <div className="flex justify-between items-center min-w-11/12 px-4 py-2">
+                        <div>
+                            <span className="text-white font-medium">Explore More</span>
+                            <span className="text-orange-500">🔥</span>
+                        </div>
+                        {status !== ''? <p className="text-white text-xs">filter: {status}</p>:null}
+                    </div>
+                    <Button
+                        onClick={onClick}
+                        variant="ghost"
+                        size="icon"
+                        className="text-gray-400 hover:text-white hover:bg-transparent"
+                    >
+                        <X className="h-5 w-5" />
+                    </Button>
+                </div>
+            
                 <div className="flex flex-col sm:flex-row sm:justify-between shadow-lg p-3 space-y-2 border-t-1 border-neutral-600">
                     <Input type="text"
                         placeholder="Search by name, address or description..."
@@ -108,6 +108,8 @@ const FilterBar = ({value, setValue, status, setStatus}: FilterBarProps)=>{
                     
                 </div>
             </>}
+            
+            
             
         </div>
     )

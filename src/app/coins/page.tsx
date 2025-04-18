@@ -17,7 +17,7 @@ const Page = ()=>{
     
     
     return(
-            <div className="flex-col w-7xl px-3 sm:px-8 py-6 mb-30">
+            <div className="flex-col w-full px-3 sm:px-8 py-6 mb-30">
                 <div className="flex mb-3.5">
                     <h2 className="font-bold text-white text-center text-2xl w-full">Meme Coins</h2>
                 </div>
@@ -41,7 +41,7 @@ const Page = ()=>{
                 ):coins&&coins.length > 0?
                 (
                     <section>
-                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mb-7">
                             {coins?.map(coin =>{
                                 //console.log(coin.creator.address);
                                 return(
@@ -51,9 +51,10 @@ const Page = ()=>{
                                     </MemeCoin_Card>)
                             })}
                         </div>
-                        {hasMore&&<div>
-                            <button className="bg-amber-400 text-bold text-white" onClick={()=>setSize(size + 1)}>Load more</button>
-                        </div>}
+                        {hasMore&&
+                            <div className="flex justify-center">
+                                <button className="bg-green-600 text-bold text-white rounded-md w-40 py-1 duration-200 hover:cursor-pointer hover:scale-[1.02]" onClick={()=>setSize(size + 1)}>Load more</button>
+                            </div>}
                     </section>
                 ): 
                     (<div className="flex justify-center items-center py-12">

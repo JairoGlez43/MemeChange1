@@ -60,3 +60,9 @@ export interface FilterBarProps{
     status: string,
     setStatus: (status: string) => void,
 }
+
+export type FormData = {
+    memecoinName: string,
+    coinSymbol: string,
+    description: string,
+}

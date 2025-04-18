@@ -2,7 +2,7 @@ import { Coins } from "@/lib/types";
 import { Card, CardContent} from "@/components/ui/card";
 const TrendingCard = ({coin}: {coin: Coins})=>{
     return(
-        <div className="w-3/4 relative overflow-hidden  transition-transform duration-200 hover:shadow-2xl hover:scale-[1.02] hover:shadow-purple-500/20 rounded-xl">
+        <div className="sm:w-3/4 md:w-3/5 relative overflow-hidden  transition-transform duration-200 hover:shadow-2xl hover:scale-[1.02] hover:shadow-purple-500/20 rounded-xl">
             <Card className=" flex flex-col bg-gradient-to-br from-purple-900/90 to-blue-900/90 border-neutral-700">
                 <a href={`https://memexchange.fun/meme-coins/`}>
                     <CardContent className="px-3 min-h-20">
