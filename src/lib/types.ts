@@ -62,7 +62,9 @@ export interface FilterBarProps{
 }
 
 export type FormData = {
+    coinImage: File[],
     memecoinName: string,
     coinSymbol: string,
     description: string,
+    firstToBuy: boolean,
 }
